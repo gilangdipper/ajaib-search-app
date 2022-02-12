@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import styled from 'styled-components'
+
+import { IUser } from '../../interfaces'
+
 import { isUndefined, snakeCaseFormatter } from './helper'
 
 const TableWrapper = styled.div`
@@ -62,7 +65,8 @@ const TableHeader = styled.th`
 const TableRow = styled.tr`
   td {
     border-bottom: 1px solid #efecec;
-    padding: 10px 0;
+    padding: 10px 4px;
+    font-size: 12px;
   }
 
   &:last-child {
@@ -72,7 +76,11 @@ const TableRow = styled.tr`
   }
 `
 
-const TableComponent = () => {
+interface ITable {
+  rows: IUser[] | undefined
+}
+
+const TableComponent: FC<ITable> = ({ rows }) => {
   const [sortHeader, setSortHeader] = useState<
     Record<string, string | undefined>
   >({})
@@ -82,58 +90,53 @@ const TableComponent = () => {
   return (
     <TableWrapper>
       <Table>
-        <TableHeaderWrapper>
-          {headerList.map((header) => {
-            const tableHeaderClass = []
-            const headerName = snakeCaseFormatter(header)
+        <thead>
+          <TableHeaderWrapper>
+            {headerList.map((header) => {
+              const tableHeaderClass = []
+              const headerName = snakeCaseFormatter(header)
 
-            if (sortHeader[headerName] === 'asc') {
-              tableHeaderClass.push('asc')
-            } else if (sortHeader[headerName] === 'dsc') {
-              tableHeaderClass.push('dsc')
-            }
+              if (sortHeader[headerName] === 'asc') {
+                tableHeaderClass.push('asc')
+              } else if (sortHeader[headerName] === 'dsc') {
+                tableHeaderClass.push('dsc')
+              }
 
-            return (
-              <TableHeader
-                key={header}
-                className={tableHeaderClass.join(' ')}
-                onClick={() => {
-                  const nextSort =
-                    isUndefined(sortHeader[headerName]) ||
-                    sortHeader[headerName] === 'dsc'
-                      ? 'asc'
-                      : 'dsc'
-                  setSortHeader({
-                    [headerName]: nextSort,
-                  })
-                }}
-              >
-                {header}
-              </TableHeader>
-            )
-          })}
-        </TableHeaderWrapper>
-        <TableRow>
-          <td>Alfreds Futterkiste</td>
-          <td>Maria Anders</td>
-          <td>Germany</td>
-          <td>Roland Mendel</td>
-          <td>Austria</td>
-        </TableRow>
-        <TableRow>
-          <td>Centro comercial Moctezuma</td>
-          <td>Francisco Chang</td>
-          <td>Mexico</td>
-          <td>Roland Mendel</td>
-          <td>Austria</td>
-        </TableRow>
-        <TableRow>
-          <td>Ernst Handel</td>
-          <td>Roland Mendel</td>
-          <td>Austria</td>
-          <td>Roland Mendel</td>
-          <td>Austria</td>
-        </TableRow>
+              return (
+                <TableHeader
+                  key={header}
+                  className={tableHeaderClass.join(' ')}
+                  onClick={() => {
+                    const nextSort =
+                      isUndefined(sortHeader[headerName]) ||
+                      sortHeader[headerName] === 'dsc'
+                        ? 'asc'
+                        : 'dsc'
+                    setSortHeader({
+                      [headerName]: nextSort,
+                    })
+                  }}
+                >
+                  {header}
+                </TableHeader>
+              )
+            })}
+          </TableHeaderWrapper>
+        </thead>
+        <tbody>
+          {rows &&
+            rows.map((user) => (
+              <TableRow key={user.login.username}>
+                <td>{user.login.username}</td>
+                <td>
+                  {user.name.first} {user.name.last}
+                </td>
+                <td>{user.email}</td>
+                <td>{user.gender}</td>
+                <td>{user.registered.date}</td>
+              </TableRow>
+            ))}
+        </tbody>
       </Table>
     </TableWrapper>
   )
