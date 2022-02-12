@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { isUndefined, snakeCaseFormatter } from './helper'
 
 const TableWrapper = styled.div`
-  width: calc(100% - 20%);
+  flex: 0 0 100%;
 
   table {
     width: 100%;
