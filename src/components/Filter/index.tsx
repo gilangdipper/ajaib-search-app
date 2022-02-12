@@ -1,6 +1,10 @@
+import { ChangeEventHandler, FC, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import { ReactComponent as SearchIcon } from '../../assets/search-icon.svg'
+import { TUserFilter } from '../../interfaces'
+import { debounce } from './helper'
+
 import Select from './Select'
 
 const FilterWrapper = styled.div`
@@ -63,12 +67,37 @@ const FilterResetWrapper = styled.div`
   }
 `
 
-const Filter = () => {
+interface IFilter {
+  handleUpdateFilter: (filterName: keyof TUserFilter, value: string) => void
+  filter: Omit<TUserFilter, 'page' | 'pageSize' | 'results'>
+  handleResetFilter: () => void
+}
+
+const Filter: FC<IFilter> = ({
+  handleResetFilter,
+  handleUpdateFilter,
+  filter,
+}) => {
+  const [inputValue, setInputValue] = useState('')
+  const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    handleUpdateFilter('keyword', e.target.value)
+  }
+  const debouncedChangeHandler = useMemo(() => debounce(handleOnChange), [])
+
   return (
     <FilterWrapper>
       <SearchWrapper>
         <div className="label">Search</div>
-        <input type="text" placeholder="Search.." name="search" />
+        <input
+          value={inputValue}
+          type="text"
+          placeholder="Search.."
+          name="search"
+          onChange={(e) => {
+            setInputValue(e.target.value)
+            debouncedChangeHandler(e)
+          }}
+        />
         <button type="button">
           <SearchIcon />
         </button>
@@ -81,15 +110,23 @@ const Filter = () => {
             { name: 'male', value: 'male' },
             { name: 'female', value: 'female' },
           ]}
-          value="all"
+          value={filter.gender || ''}
           onChange={(value) => {
-            console.log('//', value)
+            handleUpdateFilter('gender', `${value}`)
           }}
           placeholder="Select gender"
         />
       </FilterGenderWrapper>
       <FilterResetWrapper>
-        <button type="button">Reset Filter</button>
+        <button
+          type="button"
+          onClick={() => {
+            handleResetFilter()
+            setInputValue('')
+          }}
+        >
+          Reset Filter
+        </button>
       </FilterResetWrapper>
     </FilterWrapper>
   )

@@ -32,3 +32,30 @@ export interface IUser {
   picture: Record<'large' | 'medium' | 'thumbnail', string>
   nat: string
 }
+
+export interface IUserResponse {
+  info: {
+    seed: string
+    results: number
+    page: number
+    version: string
+  }
+  results: IUser[]
+}
+
+export interface IErrorResponse {
+  errors: {
+    code: number
+    message: string
+  }
+}
+
+export type TUserFilter = {
+  page: number
+  pageSize: number
+  results: number
+  keyword?: string
+  sortBy?: string
+  sortOrder?: string
+  gender?: string
+}

@@ -1,9 +1,10 @@
 import { FC, useState } from 'react'
 import styled from 'styled-components'
 
-import { IUser } from '../../interfaces'
+import { IUser, IUserResponse } from '../../interfaces'
 
 import { isUndefined, snakeCaseFormatter } from './helper'
+import TablePagination from './TablePagination'
 
 const TableWrapper = styled.div`
   flex: 0 0 100%;
@@ -78,9 +79,11 @@ const TableRow = styled.tr`
 
 interface ITable {
   rows: IUser[] | undefined
+  pagination?: IUserResponse['info']
+  handleSetPage: (page: number) => void
 }
 
-const TableComponent: FC<ITable> = ({ rows }) => {
+const TableComponent: FC<ITable> = ({ rows, pagination, handleSetPage }) => {
   const [sortHeader, setSortHeader] = useState<
     Record<string, string | undefined>
   >({})
@@ -138,6 +141,7 @@ const TableComponent: FC<ITable> = ({ rows }) => {
             ))}
         </tbody>
       </Table>
+      <TablePagination pagination={pagination} handleSetPage={handleSetPage} />
     </TableWrapper>
   )
 }
