@@ -68,7 +68,9 @@ const FilterResetWrapper = styled.div`
 `
 
 interface IFilter {
-  handleUpdateFilter: (filterName: keyof TUserFilter, value: string) => void
+  handleUpdateFilter: (
+    filterName: Partial<Omit<TUserFilter, 'page' | 'pageSize' | 'results'>>,
+  ) => void
   filter: Omit<TUserFilter, 'page' | 'pageSize' | 'results'>
   handleResetFilter: () => void
 }
@@ -80,7 +82,7 @@ const Filter: FC<IFilter> = ({
 }) => {
   const [inputValue, setInputValue] = useState('')
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    handleUpdateFilter('keyword', e.target.value)
+    handleUpdateFilter({ keyword: e.target.value })
   }
   const debouncedChangeHandler = useMemo(() => debounce(handleOnChange), [])
 
@@ -112,7 +114,7 @@ const Filter: FC<IFilter> = ({
           ]}
           value={filter.gender || ''}
           onChange={(value) => {
-            handleUpdateFilter('gender', `${value}`)
+            handleUpdateFilter({ gender: `${value}` })
           }}
           placeholder="Select gender"
         />

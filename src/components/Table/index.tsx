@@ -1,9 +1,9 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { IUser, IUserResponse } from '../../interfaces'
+import { IUser, IUserResponse, TUserFilter } from '../../interfaces'
 
-import { isUndefined, snakeCaseFormatter } from './helper'
+import { isUndefined } from './helper'
 import TablePagination from './TablePagination'
 
 const TableWrapper = styled.div`
@@ -30,6 +30,7 @@ const TableHeader = styled.th`
   position: relative;
   text-align: left;
   padding: 18px 4px;
+  text-transform: capitalize;
 
   &::before,
   &::after {
@@ -81,14 +82,27 @@ interface ITable {
   rows: IUser[] | undefined
   pagination?: IUserResponse['info']
   handleSetPage: (page: number) => void
+  handleUpdateFilter: (
+    filterUpdated: Partial<Omit<TUserFilter, 'page' | 'pageSize' | 'results'>>,
+  ) => void
 }
 
-const TableComponent: FC<ITable> = ({ rows, pagination, handleSetPage }) => {
-  const [sortHeader, setSortHeader] = useState<
-    Record<string, string | undefined>
-  >({})
+const TableComponent: FC<ITable> = ({
+  rows,
+  pagination,
+  handleSetPage,
+  handleUpdateFilter,
+}) => {
+  const [sortHeader, setSortHeader] = useState<string[]>([])
+  const headerList = ['username', 'name', 'Email', 'gender', 'registered date']
+  const [headerSortBy, headerSortOrder] = sortHeader
 
-  const headerList = ['Username', 'Name', 'Email', 'Gender', 'Registered Date']
+  useEffect(() => {
+    handleUpdateFilter({
+      sortBy: headerSortBy,
+      sortOrder: headerSortOrder,
+    })
+  }, [headerSortBy, headerSortOrder])
 
   return (
     <TableWrapper>
@@ -97,12 +111,15 @@ const TableComponent: FC<ITable> = ({ rows, pagination, handleSetPage }) => {
           <TableHeaderWrapper>
             {headerList.map((header) => {
               const tableHeaderClass = []
-              const headerName = snakeCaseFormatter(header)
+              const [headerActiveSortBy, headerActiveSortOrder] = sortHeader
+              const headerName = header.split(' ')[0]
 
-              if (sortHeader[headerName] === 'asc') {
-                tableHeaderClass.push('asc')
-              } else if (sortHeader[headerName] === 'dsc') {
-                tableHeaderClass.push('dsc')
+              if (headerActiveSortBy === headerName) {
+                if (headerActiveSortOrder === 'asc') {
+                  tableHeaderClass.push('asc')
+                } else if (headerActiveSortOrder === 'dsc') {
+                  tableHeaderClass.push('dsc')
+                }
               }
 
               return (
@@ -110,14 +127,12 @@ const TableComponent: FC<ITable> = ({ rows, pagination, handleSetPage }) => {
                   key={header}
                   className={tableHeaderClass.join(' ')}
                   onClick={() => {
-                    const nextSort =
-                      isUndefined(sortHeader[headerName]) ||
-                      sortHeader[headerName] === 'dsc'
+                    const sortOrder =
+                      isUndefined(headerActiveSortOrder) ||
+                      headerActiveSortOrder === 'dsc'
                         ? 'asc'
                         : 'dsc'
-                    setSortHeader({
-                      [headerName]: nextSort,
-                    })
+                    setSortHeader([headerName, sortOrder])
                   }}
                 >
                   {header}

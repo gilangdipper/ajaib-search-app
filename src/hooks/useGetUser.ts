@@ -37,6 +37,7 @@ export default function useGetUsers(params?: {
       params?.filters.page,
       params?.filters.keyword,
       params?.filters.gender,
+      params?.filters.sortBy,
     ],
     () => fetchUsers(params?.filters),
     params?.options,

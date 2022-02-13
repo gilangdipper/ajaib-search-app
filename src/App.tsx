@@ -30,8 +30,10 @@ function App() {
 
   const handleSetPage = (pageNumber: number) => setPage(pageNumber)
 
-  const handleUpdateFilter = (filterName: keyof TUserFilter, value: string) => {
-    setFilter((prev) => ({ ...prev, [filterName]: value }))
+  const handleUpdateFilter = (
+    filterUpdated: Partial<Omit<TUserFilter, 'page' | 'pageSize' | 'results'>>,
+  ) => {
+    setFilter((prev) => ({ ...prev, ...filterUpdated }))
   }
 
   const handleResetFilter = () => {
@@ -53,6 +55,7 @@ function App() {
           rows={data?.results}
           pagination={data?.info}
           handleSetPage={handleSetPage}
+          handleUpdateFilter={handleUpdateFilter}
         />
       )}
     </AppWrapper>
