@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 
 import TablePagination from './TablePagination'
 
-import { isUndefined } from './helper'
+import { formatStringDate, isUndefined } from './helper'
 import {
   Table,
   TableHeader,
@@ -76,7 +76,7 @@ const TableComponent: FC<ITable> = ({
                 </td>
                 <td>{user.email}</td>
                 <td>{user.gender}</td>
-                <td>{user.registered.date}</td>
+                <td>{formatStringDate(user.registered.date)}</td>
               </TableRow>
             ))}
         </tbody>
