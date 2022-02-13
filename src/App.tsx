@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import styled from 'styled-components'
-import Filter from './components/Filter'
 
-import Table from './components/Table'
 import useGetUsers from './hooks/useGetUser'
 import { TUserFilter } from './interfaces'
+
+const Table = lazy(() => import('./components/Table'))
+const Filter = lazy(() => import('./components/Filter'))
 
 const AppWrapper = styled.div`
   width: calc(100% - 20%);
@@ -43,21 +44,23 @@ function App() {
 
   return (
     <AppWrapper>
-      <Filter
-        handleResetFilter={handleResetFilter}
-        handleUpdateFilter={handleUpdateFilter}
-        filter={filter}
-      />
-      {isLoading ? (
-        <b>Loading ...</b>
-      ) : (
-        <Table
-          rows={data?.results}
-          pagination={data?.info}
-          handleSetPage={handleSetPage}
+      <Suspense fallback={<div>Page is Loading...</div>}>
+        <Filter
+          handleResetFilter={handleResetFilter}
           handleUpdateFilter={handleUpdateFilter}
+          filter={filter}
         />
-      )}
+        {isLoading ? (
+          <b>Loading ...</b>
+        ) : (
+          <Table
+            rows={data?.results}
+            pagination={data?.info}
+            handleSetPage={handleSetPage}
+            handleUpdateFilter={handleUpdateFilter}
+          />
+        )}
+      </Suspense>
     </AppWrapper>
   )
 }
