@@ -32,3 +32,7 @@ I used code-splitting trick to improve web performance, split by main components
 - use `Dynamic imports`, This enables us to import our modules and files on demand
 - use `React.lazy`, ensuring that component chunk is only loaded when its rendered
 - use `React.Suspense`, suspends the rendering of a component until all its dependencies are lazy-loaded
+
+## Async state manager
+
+user `React Query` to handle async state manage when fetch date from API, so I didn't use other state manager, cause I think it's overkill to use local state manager.ss
