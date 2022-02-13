@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/ajaib-search-app/static/css/main.e6c13ad2.css",
-    "main.js": "/ajaib-search-app/static/js/main.e9324f34.js",
-    "static/js/816.06e4409e.chunk.js": "/ajaib-search-app/static/js/816.06e4409e.chunk.js",
+    "main.js": "/ajaib-search-app/static/js/main.1eafc6ec.js",
+    "static/js/816.ce806ea0.chunk.js": "/ajaib-search-app/static/js/816.ce806ea0.chunk.js",
     "static/js/308.60f458a5.chunk.js": "/ajaib-search-app/static/js/308.60f458a5.chunk.js",
     "static/js/787.323a3dc2.chunk.js": "/ajaib-search-app/static/js/787.323a3dc2.chunk.js",
     "index.html": "/ajaib-search-app/index.html",
     "static/media/search-icon.svg": "/ajaib-search-app/static/media/search-icon.f326cfeb43dbf9dd272fa19497a01d18.svg",
     "main.e6c13ad2.css.map": "/ajaib-search-app/static/css/main.e6c13ad2.css.map",
-    "main.e9324f34.js.map": "/ajaib-search-app/static/js/main.e9324f34.js.map",
-    "816.06e4409e.chunk.js.map": "/ajaib-search-app/static/js/816.06e4409e.chunk.js.map",
+    "main.1eafc6ec.js.map": "/ajaib-search-app/static/js/main.1eafc6ec.js.map",
+    "816.ce806ea0.chunk.js.map": "/ajaib-search-app/static/js/816.ce806ea0.chunk.js.map",
     "308.60f458a5.chunk.js.map": "/ajaib-search-app/static/js/308.60f458a5.chunk.js.map",
     "787.323a3dc2.chunk.js.map": "/ajaib-search-app/static/js/787.323a3dc2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.e9324f34.js"
+    "static/js/main.1eafc6ec.js"
   ]
 }
