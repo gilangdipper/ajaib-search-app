@@ -1,0 +1,126 @@
+1. Explain how Object Oriented Programming works with a thorough understanding of the keyword this
+and the new keyword
+---
+class User {
+  // The body of class
+}
+
+The code above defines a class `User`. The curly braces { } delimit the class body.
+this syntax is named class declaration.
+
+The class becomes useful when you create an instance of the class.
+An instance is an object containing data and behavior described by the class.
+
+const myUser = new User();
+
+`new User()` creates an instance of the `User` class.
+
+In the following example the constructor sets the initial value of the field `name`:
+
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+`User`'s constructor has one parameter `name`, which is used to set the initial value of the field `this.name`.
+
+Inside the constructor `this` value equals to the newly created instance.
+---
+
+
+2. What is the new class syntax and how to create instance methods, class methods?
+---
+class User {
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayHi() {
+    alert(this.name);
+  }
+
+}
+
+// Usage:
+let user = new User("John");
+user.sayHi();
+
+What class `User` {...} construct really does is:
+
+Creates a function named `User`, that becomes the result of the class declaration.
+The function code is taken from the constructor method (assumed empty if we don’t write such method).
+Stores class methods, such as `sayHi`, in `User.prototype`.
+
+---
+
+
+3. Give an example of how to implement inheritance in ES2015 using extends and super
+---
+class User {
+  name;
+  constructor(name) {
+    this.name = name;
+  }
+  getName() {
+    return this.name;
+  }
+}
+class ContentWriter extends User {
+  posts = [];
+  constructor(name, posts) {
+    super(name);
+    this.posts = posts;
+  }
+}
+const writer = new ContentWriter('John Smith', ['Why I like JS']);
+writer.name; // => 'John Smith'
+writer.posts // => ['Why I like JS']
+---
+
+
+4. Imagine refactoring an ES5 application to use ES2015, how would you go about it?
+---
+update function statement to arrow function statement
+
+var list = dataList.map(function(data) {
+  return data.id;
+});
+
+to
+
+const list = dataList.map(data => data.id);
+---
+
+
+5. Give an example of how you structure applications with design patterns using closure and modules
+---
+
+---
+
+
+6. What are your preferred ways of testing your web application?
+---
+as a FrontEnd Engineer
+
+for logic, I use Unit Test
+for view, I use manual testing
+---
+
+
+7. Which web server do you use? Why? Explain pros and cons of your choice.
+---
+---
+
+
+8. What is your preferred production deployment process?
+---
+CI/CD
+---
+
+
+9. Give an example of clean README.md documentation.
+---
+can check on my repos for code test
+---
